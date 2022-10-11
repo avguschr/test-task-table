@@ -89,6 +89,7 @@ export default {
         condition: this.selectedCondition,
         value: this.filterValue,
       });
+      this.$emit("pageReset");
     },
     selectColumn() {
       this.selectedCondition = "";

@@ -1,27 +1,32 @@
 <template lang="html">
   <div class="w-100">
-    <Filters @filter="filter" />
-    <Table :data="paginatedData" class="mb-3" />
+    <Filters @filter="filter" @pageReset="pageReset" />
+    <div v-if="dataLength">
+      <Table :data="paginatedData" class="mb-3" />
 
-    <div class="d-flex align-items-center justify-content-between">
-      <div>
-        <label for="customRange3" class="form-label">Limit</label>
-        <input
-          @change="currentPage = 1"
-          v-model="limit"
-          type="range"
-          class="form-range"
-          min="1"
-          max="9"
-          step="1"
-          id="customRange3"
+      <div class="d-flex align-items-center justify-content-between">
+        <div>
+          <label for="customRange3" class="form-label">Limit</label>
+          <input
+            @change="currentPage = 1"
+            v-model="limit"
+            type="range"
+            class="form-range"
+            min="1"
+            max="9"
+            step="1"
+            id="customRange3"
+          />
+        </div>
+        <Pagination
+          :currentPage="currentPage"
+          @changePage="changePage"
+          :len="pageQuantity"
         />
       </div>
-      <Pagination
-        :currentPage="currentPage"
-        @changePage="changePage"
-        :len="pageQuantity"
-      />
+    </div>
+    <div v-else>
+      <p>Nothing found</p>
     </div>
   </div>
 </template>
@@ -59,6 +64,9 @@ export default {
     },
     changePage(page) {
       this.currentPage = page;
+    },
+    pageReset() {
+      this.currentPage = 1;
     },
     objectSplice(obj, num1, num2) {
       let newObj = {};
